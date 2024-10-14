@@ -17,10 +17,6 @@ from mlops_engine_carbon_emmisions.constants import SCHEMA_FILE_PATH
 
 class DataValidation:
     def __init__(self, data_ingestion_artifact: DataIngestionArtifact, data_validation_config: DataValidationConfig):
-        """
-        :param data_ingestion_artifact: Output reference of data ingestion artifact stage
-        :param data_validation_config: configuration for data validation
-        """
         try:
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_config = data_validation_config
@@ -29,13 +25,7 @@ class DataValidation:
             raise MlopsProjectException(e,sys)
 
     def validate_number_of_columns(self, dataframe: DataFrame) -> bool:
-        """
-        Method Name :   validate_number_of_columns
-        Description :   This method validates the number of columns
-        
-        Output      :   Returns bool value based on validation results
-        On Failure  :   Write an exception log and then raise an exception
-        """
+
         try:
             status = len(dataframe.columns) == len(self._schema_config["columns"])
             logging.info(f"Is required column present: [{status}]")
@@ -44,13 +34,6 @@ class DataValidation:
             raise MlopsProjectException(e, sys)
 
     def is_column_exist(self, df: DataFrame) -> bool:
-        """
-        Method Name :   is_column_exist
-        Description :   This method validates the existence of a numerical and categorical columns
-        
-        Output      :   Returns bool value based on validation results
-        On Failure  :   Write an exception log and then raise an exception
-        """
         try:
             dataframe_columns = df.columns
             missing_numerical_columns = []
@@ -82,13 +65,6 @@ class DataValidation:
             raise MlopsProjectException(e, sys)
 
     def detect_dataset_drift(self, reference_df: DataFrame, current_df: DataFrame, ) -> bool:
-        """
-        Method Name :   detect_dataset_drift
-        Description :   This method validates if drift is detected
-        
-        Output      :   Returns bool value based on validation results
-        On Failure  :   Write an exception log and then raise an exception
-        """
         try:
             data_drift_profile = Profile(sections=[DataDriftProfileSection()])
 
@@ -109,13 +85,6 @@ class DataValidation:
             raise MlopsProjectException(e, sys) from e
 
     def initiate_data_validation(self) -> DataValidationArtifact:
-        """
-        Method Name :   initiate_data_validation
-        Description :   This method initiates the data validation component for the pipeline
-        
-        Output      :   Returns bool value based on validation results
-        On Failure  :   Write an exception log and then raise an exception
-        """
 
         try:
             validation_error_msg = ""
