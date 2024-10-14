@@ -1,0 +1,1 @@
+from mlops_engine_carbon_emmisions.components import data_ingestion
